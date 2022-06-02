@@ -1,8 +1,9 @@
+const { USER_ROLES, ADMIN_ROLES } = require("../../utils/enum")
 module.exports = (sequalize, Sequelize) => {
     const Users = sequalize.define("users",  {
         id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
+            type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV1,
             primaryKey: true
         },
         firstName: {
@@ -12,7 +13,7 @@ module.exports = (sequalize, Sequelize) => {
             type: Sequelize.STRING
         },
         role: {
-            type: Sequelize.ENUM("ADMIN", "SUPERADMIN", "PATIENT", "PROVIDER")
+            type: Sequelize.ENUM(...USER_ROLES, ...ADMIN_ROLES),
         },
         email: {
             type: Sequelize.STRING

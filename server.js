@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const db = require("./app/models");
-const UserRoutes = require("./routes/UserRoutes")
+const UserRoutes = require("./routes/user.route")
 var corsOptions = {
-    origin: "http://localhost:3000"
+    origin: ["http://localhost:3000", "http://localhost:3001"]
 };
 
 app.use(cors(corsOptions));
@@ -27,8 +27,8 @@ app.listen(PORT, () => {
 });
 
 // In development you may need to drop existing tables and re-sync database. 
-// db.sequelize.sync({force:true}).then(() => {
-//     console.log("Drop and re-sync db.")
-// })
+db.sequelize.sync({force:true}).then(() => {
+    console.log("Drop and re-sync db.")
+})
 
-db.sequelize.sync();
+// db.sequelize.sync();
