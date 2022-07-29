@@ -2,9 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const db = require("./app/models");
-const UserRoutes = require("./routes/user.route")
+const UserRoutes = require("./routes/user.route");
+const AdminRoutes = require("./routes/admin.route");
+const AuthRoutes = require("./routes/auth.route")
 var corsOptions = {
-    origin: ["http://localhost:3000", "http://localhost:3001"]
+  origin: ["http://localhost:3000", "http://localhost:3001"],
 };
 
 app.use(cors(corsOptions));
@@ -13,22 +15,22 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 //parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 //simple route
 
 app.use("/user", UserRoutes);
-
+app.use("/admin", AdminRoutes);
+app.use("/auth", AuthRoutes);
 // set port, listen for requests
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {
-    console.log(`Server running at PORT ${PORT}`);
-    console.log("http://localhost:8000")
+  console.log(`Server running at PORT ${PORT}`);
+  console.log("http://localhost:8001");
 });
+// In development you may need to drop existing tables and re-sync database.
+// db.sequelize.sync({force:true}).then(() => {
+//     console.log("Drop and re-sync db.")
+// })
 
-// In development you may need to drop existing tables and re-sync database. 
-db.sequelize.sync({force:true}).then(() => {
-    console.log("Drop and re-sync db.")
-})
-
-// db.sequelize.sync();
+db.sequelize.sync();
